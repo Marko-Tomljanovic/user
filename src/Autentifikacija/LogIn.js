@@ -3,19 +3,32 @@ import React, { useState } from "react";
 const LogIn = () => {
   const [email, setEmail] = useState(null);
   const [pass, setPass] = useState(null);
+  const [logInData, setLogInData] = useState({});
 
+  function getLogInData() {
+    if (email == null || pass == null) {
+      alert("Popuniti sva polja!");
+    } else {
+      setLogInData({ email: email, pass: pass });
+      console.log(logInData);
+      clear();
+    }
+  }
   function getEmail(val) {
     setEmail(val.target.value);
   }
   function getPass(val) {
     setPass(val.target.value);
   }
+  function clear() {
+    setLogInData({});
+  }
 
   return (
     <>
       <h4 className="text-center mt-4">Prijava</h4>
-      <h4 className="text-center mt-4">email: {email}</h4>
-      <h4 className="text-center mt-4">lozinka: {pass}</h4>
+      <h5 className="text-center mt-4">email: {email}</h5>
+      <h5 className="text-center mt-4">lozinka: {pass}</h5>
 
       <br />
       <form className="col-5 mx-auto mt-2">
@@ -50,7 +63,11 @@ const LogIn = () => {
             Zapamti me
           </label>
         </div>
-        <button type="submit" className="btn btn-success mt-2">
+        <button
+          type="button"
+          className="btn btn-success mt-2"
+          onClick={() => getLogInData()}
+        >
           Prijavi se
         </button>
       </form>

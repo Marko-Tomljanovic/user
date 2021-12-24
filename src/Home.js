@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import UserComponent from "./UserComponent";
 
 class Home extends Component {
   render() {
@@ -9,11 +10,14 @@ class Home extends Component {
           PRIMJER AUTENTIFIKACIJE
         </h4>
         <div>
-          <img
+          {/* <img
             src="https://picsum.photos/1500/800?random=1"
             className="img-fluid"
             alt="Responsive"
-          ></img>
+          ></img> */}{" "}
+          <br />
+          <br />
+          <UserComponent></UserComponent>
         </div>
       </>
     );
