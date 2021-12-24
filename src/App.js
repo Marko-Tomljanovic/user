@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-import LogIn from "./Autentifikacija/LogIn";
-import SignIn from "./Autentifikacija/SignIn";
+import LogIn from "./autentifikacija/LogIn";
+import SignIn from "./autentifikacija/SignIn";
 import Home from "./Home";
 
 function App() {
