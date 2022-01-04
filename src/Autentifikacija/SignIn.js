@@ -1,21 +1,32 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState(null);
   const [pass, setPass] = useState(null);
   const [rPass, setRPass] = useState(null);
-  const [check, setCheck] = useState(null);
+  let [check, setCheck] = useState(false);
 
-  const [signInData, setSignInData] = useState({});
-
-  function getSignInData() {
+  function postData(e) {
     if (email == null || pass == null || rPass == null) {
       alert("Popuniti sva polja!");
-    } else if (check == null) {
+    } else if (pass !== rPass) {
+      alert("Lozinke nisu iste!");
+    } else if (check === false) {
       alert("Prihvatiti uvijete korištenja!");
     } else {
-      setSignInData({ email: email, pass: pass, rPass: rPass });
-      console.log(signInData);
+      axios
+        .post("http://localhost:8080/api/addUser", {
+          email: email,
+          password: pass,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      clear();
     }
   }
   function getEmail(val) {
@@ -28,17 +39,24 @@ const SignIn = () => {
     setRPass(val.target.value);
   }
   function getCheck(val) {
-    setCheck(val.target.value);
+    setCheck(val.target.checked);
+  }
+  function clear() {
+    document.getElementById("signin").reset();
+  }
+  function formPreventDefault(e) {
+    e.preventDefault();
   }
 
   return (
     <>
       <h4 className="text-center mt-4">Registracija</h4>
-      <h5 className="text-center">Email: {email}</h5>
-      <h5 className="text-center">Lozinka: {pass} </h5>
-      <h5 className="text-center">Ponovljena lozinka: {rPass}</h5>
       <br />
-      <form className="col-5 mx-auto mt-2">
+      <form
+        id="signin"
+        className="col-5 mx-auto mt-2"
+        onSubmit={formPreventDefault}
+      >
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email adresa</label>
           <input
@@ -82,9 +100,9 @@ const SignIn = () => {
           </label>
         </div>
         <button
-          type="button"
+          type="submit"
           className="btn btn-success mt-2"
-          onClick={() => getSignInData()}
+          onClick={() => postData()}
         >
           Registriraj se
         </button>

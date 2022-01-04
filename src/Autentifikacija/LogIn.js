@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const LogIn = () => {
   const [email, setEmail] = useState(null);
   const [pass, setPass] = useState(null);
-  const [logInData, setLogInData] = useState({});
 
   function getLogInData() {
     if (email == null || pass == null) {
       alert("Popuniti sva polja!");
     } else {
-      setLogInData({ email: email, pass: pass });
-      console.log(logInData);
+      axios
+        .get("http://localhost:8080/api/users", {})
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err));
+
       clear();
     }
   }
@@ -21,17 +26,22 @@ const LogIn = () => {
     setPass(val.target.value);
   }
   function clear() {
-    setLogInData({});
+    document.getElementById("login").reset();
+  }
+  function formPreventDefault(e) {
+    e.preventDefault();
   }
 
   return (
     <>
       <h4 className="text-center mt-4">Prijava</h4>
-      <h5 className="text-center mt-4">email: {email}</h5>
-      <h5 className="text-center mt-4">lozinka: {pass}</h5>
 
       <br />
-      <form className="col-5 mx-auto mt-2">
+      <form
+        id="login"
+        className="col-5 mx-auto mt-2"
+        onSubmit={formPreventDefault}
+      >
         <div className="form-group">
           <label htmlFor="email">Email adresa</label>
           <input
